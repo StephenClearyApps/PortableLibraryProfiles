@@ -22,6 +22,8 @@ namespace AsJson
                         p.Name.FullName,
                         p.DisplayName,
                         ProfileName = p.Name.Profile,
+                        p.SupportedByVisualStudio2013,
+                        p.NugetTarget,
                         Frameworks = p.SupportedFrameworks.Select(f => new
                         {
                             f.Name.FullName,

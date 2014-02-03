@@ -41,7 +41,8 @@ namespace FrameworkProfiles
                         ret.SupportedFrameworks.Add(new FrameworkProfile
                         {
                             DisplayName = xml.Attribute("DisplayName").Value,
-                            Name = new FrameworkName(xml.Attribute("Identifier").Value, new Version(xml.Attribute("MinimumVersion").Value), xml.Attribute("Profile").Value)
+                            Name = new FrameworkName(xml.Attribute("Identifier").Value, new Version(xml.Attribute("MinimumVersion").Value), xml.Attribute("Profile").Value),
+                            SupportedByVisualStudio2013 = new Version((xml.Attribute("MaximumVisualStudioVersion") ?? new XAttribute("MaximumVisualStudioVersion", "12.0")).Value) >= new Version(12, 0),
                         });
                     }
 

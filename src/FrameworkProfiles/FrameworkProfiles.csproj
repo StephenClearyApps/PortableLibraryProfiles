@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Comparers">
+      <HintPath>..\packages\Comparers.3.0.0\lib\net40-client\Comparers.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,9 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FrameworkProfile.cs" />
+    <Compile Include="NugetTargets.cs" />
     <Compile Include="PortableFrameworkProfileEnumerator.cs" />
     <Compile Include="PortableProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
