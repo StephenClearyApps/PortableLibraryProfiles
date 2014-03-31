@@ -36,6 +36,10 @@ namespace FrameworkProfiles
                 if (Name.Identifier == "WindowsPhone")
                     return true;
 
+                // Mono
+                if (Name.Identifier == "MonoAndroid" || Name.Identifier == "MonoTouch")
+                    return true;
+
                 return false;
             }
         }
@@ -58,6 +62,10 @@ namespace FrameworkProfiles
 
                 // Windows Phone 8 and newer.
                 if (Name.Identifier == "WindowsPhone")
+                    return true;
+
+                // Mono
+                if (Name.Identifier == "MonoAndroid" || Name.Identifier == "MonoTouch")
                     return true;
 
                 return false;

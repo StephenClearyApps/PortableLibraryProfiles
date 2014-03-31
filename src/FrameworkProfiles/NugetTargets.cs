@@ -23,6 +23,8 @@ namespace FrameworkProfiles
             { new FrameworkName("WindowsPhone,Version=v8.0"), "wp8" },
             { new FrameworkName(".NETCore,Version=v4.5,Profile=*"), "win8" },
             { new FrameworkName(".NETCore,Version=v4.5.1,Profile=*"), "win81" },
+            { new FrameworkName("MonoAndroid,Version=v1.0,Profile=*"), "MonoAndroid" },
+            { new FrameworkName("MonoTouch,Version=v1.0,Profile=*"), "MonoTouch" },
         };
 
         public static string GetKnownNugetTarget(FrameworkProfile profile)
