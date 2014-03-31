@@ -18,13 +18,23 @@ namespace FrameworkProfiles
             set { throw new InvalidOperationException(); }
         }
 
+        public override bool SupportsAsync
+        {
+            get { return SupportedFrameworks.All(x => x.SupportsAsync); }
+        }
+
+        public override bool SupportsGenericVariance
+        {
+            get { return SupportedFrameworks.All(x => x.SupportsGenericVariance); }
+        }
+
         public override string NugetTarget
         {
             get
             {
                 if (SupportedFrameworks.Any(x => x.NugetTarget == string.Empty))
                     return string.Empty;
-                return "portable-" + string.Join("+", SupportedFrameworks.Select(x => x.NugetTarget)) + "+MonoMac+MonoTouch+MonoAndroid";
+                return "portable-" + string.Join("+", SupportedFrameworks.Select(x => x.NugetTarget));
             }
         }
 

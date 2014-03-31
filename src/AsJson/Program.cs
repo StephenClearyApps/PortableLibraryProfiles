@@ -23,6 +23,8 @@ namespace AsJson
                         p.DisplayName,
                         ProfileName = p.Name.Profile,
                         p.SupportedByVisualStudio2013,
+                        p.SupportsAsync,
+                        p.SupportsGenericVariance,
                         p.NugetTarget,
                         Frameworks = p.SupportedFrameworks.Select(f => new
                         {
