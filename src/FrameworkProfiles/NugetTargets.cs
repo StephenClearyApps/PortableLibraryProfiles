@@ -12,25 +12,36 @@ namespace FrameworkProfiles
     {
         private static readonly Dictionary<FrameworkName, string> KnownNugetTargets = new Dictionary<FrameworkName, string>
         {
-            { new FrameworkName(".NETFramework,Version=v4.0,Profile=*"), "net4" },
-            { new FrameworkName(".NETFramework,Version=v4.0.3,Profile=*"), "net403" },
-            { new FrameworkName(".NETFramework,Version=v4.5,Profile=*"), "net45" },
-            { new FrameworkName(".NETFramework,Version=v4.5.1,Profile=*"), "net451" },
             { new FrameworkName("Silverlight,Version=v4.0"), "sl4" },
             { new FrameworkName("Silverlight,Version=v5.0"), "sl5" },
             { new FrameworkName("Silverlight,Version=v4.0,Profile=WindowsPhone*"), "wp7" },
             { new FrameworkName("Silverlight,Version=v4.0,Profile=WindowsPhone7*"), "wp71" },
-            { new FrameworkName("WindowsPhone,Version=v8.0"), "wp8" },
-            { new FrameworkName(".NETCore,Version=v4.5,Profile=*"), "win8" },
-            { new FrameworkName(".NETCore,Version=v4.5.1,Profile=*"), "win81" },
-            { new FrameworkName("MonoAndroid,Version=v1.0,Profile=*"), "MonoAndroid" },
-            { new FrameworkName("MonoTouch,Version=v1.0,Profile=*"), "MonoTouch" },
         };
 
-        public static string GetKnownNugetTarget(FrameworkProfile profile)
+        private static readonly Dictionary<string, string> KnownNugetPlatforms = new Dictionary<string, string>
         {
-            string ret;
-            return KnownNugetTargets.TryGetValue(profile.Name, out ret) ? ret : string.Empty;
+            { ".NETFramework", "net" },
+            { "WindowsPhone", "wp" },
+            { "WindowsPhoneApp", "wpa" },
+            { ".NETCore", "win" },
+            { "MonoAndroid", "MonoAndroid" },
+            { "MonoTouch", "MonoTouch" },
+        };
+
+        public static string GetNugetTarget(FrameworkProfile profile)
+        {
+            string result;
+            if (KnownNugetTargets.TryGetValue(profile.Name, out result))
+                return result;
+            string platform;
+            if (!KnownNugetPlatforms.TryGetValue(profile.Name.Identifier, out platform))
+                return null;
+            var version = profile.Name.Version.ToString();
+            while (version.EndsWith(".0"))
+                version = version.Substring(0, version.Length - 2);
+
+            // This is dangerous if any version number goes >= 10, but hey, that's NuGet's problem...
+            return platform + version.Replace(".", string.Empty);
         }
     }
 }

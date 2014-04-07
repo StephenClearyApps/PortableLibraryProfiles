@@ -36,6 +36,10 @@ namespace FrameworkProfiles
                 if (Name.Identifier == "WindowsPhone")
                     return true;
 
+                // Windows Phone Apps.
+                if (Name.Identifier == "WindowsPhoneApp")
+                    return true;
+
                 // Mono
                 if (Name.Identifier == "MonoAndroid" || Name.Identifier == "MonoTouch")
                     return true;
@@ -64,6 +68,10 @@ namespace FrameworkProfiles
                 if (Name.Identifier == "WindowsPhone")
                     return true;
 
+                // Windows Phone Apps.
+                if (Name.Identifier == "WindowsPhoneApp")
+                    return true;
+
                 // Mono
                 if (Name.Identifier == "MonoAndroid" || Name.Identifier == "MonoTouch")
                     return true;
@@ -74,7 +82,7 @@ namespace FrameworkProfiles
 
         public virtual string NugetTarget
         {
-            get { return NugetTargets.GetKnownNugetTarget(this); }
+            get { return NugetTargets.GetNugetTarget(this); }
         }
     }
 }
