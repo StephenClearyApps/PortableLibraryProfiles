@@ -10,9 +10,9 @@ namespace FrameworkProfiles
 {
     public static class PortableFrameworkProfileEnumerator
     {
-        public static IEnumerable<PortableProfile> EnumeratePortableProfiles()
+        public static IEnumerable<PortableProfile> EnumeratePortableProfiles(string path)
         {
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Reference Assemblies", "Microsoft", "Framework", ".NETPortable");
+            path = path ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Reference Assemblies", "Microsoft", "Framework", ".NETPortable");
             var versions = Directory.EnumerateDirectories(path);
             foreach (var version in versions)
             {
