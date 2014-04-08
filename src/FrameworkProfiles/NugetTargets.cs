@@ -10,6 +10,8 @@ namespace FrameworkProfiles
 {
     public static class NugetTargets
     {
+        // https://nuget.codeplex.com/SourceControl/latest#src/Core/Utility/VersionUtility.cs
+
         private static readonly Dictionary<FrameworkName, string> KnownNugetTargets = new Dictionary<FrameworkName, string>
         {
             { new FrameworkName("Silverlight,Version=v4.0"), "sl4" },
