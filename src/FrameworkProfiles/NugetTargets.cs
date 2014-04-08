@@ -23,7 +23,7 @@ namespace FrameworkProfiles
             { ".NETFramework", "net" },
             { "WindowsPhone", "wp" },
             { "WindowsPhoneApp", "wpa" },
-            { ".NETCore", "win" },
+            { ".NETCore", "netcore" },
             { "MonoAndroid", "MonoAndroid" },
             { "MonoTouch", "MonoTouch" },
         };
