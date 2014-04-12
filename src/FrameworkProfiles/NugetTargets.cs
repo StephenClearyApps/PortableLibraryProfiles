@@ -37,7 +37,7 @@ namespace FrameworkProfiles
                 return result;
             string platform;
             if (!KnownNugetPlatforms.TryGetValue(profile.Name.Identifier, out platform))
-                return null;
+                return string.Empty;
             var version = profile.Name.Version.ToString();
             while (version.EndsWith(".0"))
                 version = version.Substring(0, version.Length - 2);
