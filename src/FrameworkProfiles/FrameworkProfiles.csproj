@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileSystem\DiskFileSystem.cs" />
+    <Compile Include="FileSystem\IFile.cs" />
+    <Compile Include="FileSystem\IFolder.cs" />
+    <Compile Include="FileSystem\IFolderItem.cs" />
     <Compile Include="FrameworkProfile.cs" />
     <Compile Include="NugetTargets.cs" />
     <Compile Include="PortableFrameworkProfileEnumerator.cs" />

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using FrameworkProfiles;
+using FrameworkProfiles.FileSystem;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -33,7 +34,7 @@ namespace AsJson
 
         static void ProcessProfiles(string path)
         {
-            var profiles = PortableFrameworkProfileEnumerator.EnumeratePortableProfiles(path)
+            var profiles = PortableFrameworkProfileEnumerator.EnumeratePortableProfiles(path == null ? null : DiskFileSystem.Folder(path))
                 .OrderBy(x => int.Parse(x.Name.Profile.Substring(7)))
                 .Select(p => new
                 {

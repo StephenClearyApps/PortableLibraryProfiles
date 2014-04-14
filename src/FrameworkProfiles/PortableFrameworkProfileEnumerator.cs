@@ -5,39 +5,39 @@ using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Xml.Linq;
+using FrameworkProfiles.FileSystem;
 
 namespace FrameworkProfiles
 {
     public static class PortableFrameworkProfileEnumerator
     {
-        public static IEnumerable<PortableProfile> EnumeratePortableProfiles(string path)
+        public static IEnumerable<PortableProfile> EnumeratePortableProfiles(IFolder folder)
         {
-            path = path ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Reference Assemblies", "Microsoft", "Framework", ".NETPortable");
-            var versions = Directory.EnumerateDirectories(path);
+            folder = folder ?? DiskFileSystem.Folder(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Reference Assemblies", "Microsoft", "Framework", ".NETPortable"));
+            var versions = folder.EnumerateFolders();
             foreach (var version in versions)
             {
-                var profilePath = Path.Combine(version, "Profile");
-                var profiles = Directory.EnumerateDirectories(profilePath);
+                var profiles = version.Folder("Profile").EnumerateFolders();
                 foreach (var profile in profiles)
                 {
-                    var versionFileName = Path.GetFileName(version);
-                    var profileFileName = Path.GetFileName(profile);
+                    var versionFileName = Path.GetFileName(version.FullPath);
+                    var profileFileName = Path.GetFileName(profile.FullPath);
                     if (versionFileName == null || profileFileName == null)
                         continue;
                     var ret = new PortableProfile
                     {
-                        Name = new FrameworkName(".NETPortable", new Version(versionFileName.Substring(1)), Path.GetFileName(profile))
+                        Name = new FrameworkName(".NETPortable", new Version(versionFileName.Substring(1)), profileFileName)
                     };
 
-                    var frameworkListFileName = Path.Combine(profile, "RedistList", "FrameworkList.xml");
-                    var frameworkList = XElement.Load(frameworkListFileName);
+                    var frameworkListFile = profile.Folder("RedistList").File("FrameworkList.xml");
+                    var frameworkList = XElement.Load(frameworkListFile.FullPath);
                     ret.DisplayName = frameworkList.Attribute("Name").Value;
 
-                    var supportedFrameworkPath = Path.Combine(profile, "SupportedFrameworks");
-                    var supportedFrameworks = Directory.EnumerateFiles(supportedFrameworkPath);
+                    var supportedFrameworkFolder = profile.Folder("SupportedFrameworks");
+                    var supportedFrameworks = supportedFrameworkFolder.EnumerateFiles();
                     foreach (var supportedFramework in supportedFrameworks)
                     {
-                        var xml = XElement.Load(supportedFramework);
+                        var xml = XElement.Load(supportedFramework.FullPath);
                         ret.SupportedFrameworks.Add(new FrameworkProfile
                         {
                             DisplayName = xml.Attribute("DisplayName").Value,
