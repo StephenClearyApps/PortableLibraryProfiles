@@ -17,7 +17,11 @@ namespace AsJson
             try
             {
                 foreach (var path in Directory.EnumerateDirectories("."))
+                {
+                    CleanDirectory(path);
                     ProcessProfiles(DiskFileSystem.Folder(path), Path.Combine(path, "profiles.json"));
+                }
+
                 foreach (var zip in Directory.EnumerateFiles(".", "*.zip"))
                     ProcessProfiles(ZipFileSystem.Open(zip), Path.ChangeExtension(zip, "json"));
                 ProcessProfiles(DiskFileSystem.Folder(PortableFrameworkProfileEnumerator.MachineProfilePath), "profiles.json");
@@ -52,6 +56,20 @@ namespace AsJson
                 }).ToArray();
 
             File.WriteAllText(jsonFile, JsonConvert.SerializeObject(profiles, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() }));
+        }
+
+        static void CleanDirectory(string path)
+        {
+            var versions = Directory.EnumerateDirectories(path);
+            foreach (var version in versions)
+            {
+                foreach (var file in Directory.EnumerateFiles(version).ToArray())
+                    File.Delete(file);
+
+                var profiles = Directory.EnumerateDirectories(Path.Combine(version, "Profile"));
+                foreach (var file in profiles.SelectMany(Directory.EnumerateFiles).ToArray())
+                    File.Delete(file);
+            }
         }
     }
 }
