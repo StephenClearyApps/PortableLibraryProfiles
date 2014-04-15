@@ -11,33 +11,32 @@ namespace FrameworkProfiles
 {
     public static class PortableFrameworkProfileEnumerator
     {
+        public static readonly string MachineProfilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Reference Assemblies", "Microsoft", "Framework", ".NETPortable");
+
         public static IEnumerable<PortableProfile> EnumeratePortableProfiles(IFolder folder)
         {
-            folder = folder ?? DiskFileSystem.Folder(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Reference Assemblies", "Microsoft", "Framework", ".NETPortable"));
             var versions = folder.EnumerateFolders();
             foreach (var version in versions)
             {
                 var profiles = version.Folder("Profile").EnumerateFolders();
                 foreach (var profile in profiles)
                 {
-                    var versionFileName = Path.GetFileName(version.FullPath);
-                    var profileFileName = Path.GetFileName(profile.FullPath);
-                    if (versionFileName == null || profileFileName == null)
-                        continue;
+                    var versionFileName = Path.GetFileName(version.FullPath.TrimEnd('/'));
+                    var profileFileName = Path.GetFileName(profile.FullPath.TrimEnd('/'));
                     var ret = new PortableProfile
                     {
                         Name = new FrameworkName(".NETPortable", new Version(versionFileName.Substring(1)), profileFileName)
                     };
 
                     var frameworkListFile = profile.Folder("RedistList").File("FrameworkList.xml");
-                    var frameworkList = XElement.Load(frameworkListFile.FullPath);
+                    var frameworkList = XElement.Load(frameworkListFile.Open());
                     ret.DisplayName = frameworkList.Attribute("Name").Value;
 
                     var supportedFrameworkFolder = profile.Folder("SupportedFrameworks");
                     var supportedFrameworks = supportedFrameworkFolder.EnumerateFiles();
                     foreach (var supportedFramework in supportedFrameworks)
                     {
-                        var xml = XElement.Load(supportedFramework.FullPath);
+                        var xml = XElement.Load(supportedFramework.Open());
                         ret.SupportedFrameworks.Add(new FrameworkProfile
                         {
                             DisplayName = xml.Attribute("DisplayName").Value,

@@ -17,11 +17,10 @@ namespace AsJson
             try
             {
                 foreach (var path in Directory.EnumerateDirectories("."))
-                {
-                    ProcessProfiles(path);
-                }
-
-                ProcessProfiles(null);
+                    ProcessProfiles(DiskFileSystem.Folder(path), Path.Combine(path, "profiles.json"));
+                foreach (var zip in Directory.EnumerateFiles(".", "*.zip"))
+                    ProcessProfiles(ZipFileSystem.Open(zip), Path.ChangeExtension(zip, "json"));
+                ProcessProfiles(DiskFileSystem.Folder(PortableFrameworkProfileEnumerator.MachineProfilePath), "profiles.json");
 
                 Console.WriteLine("Done.");
             }
@@ -32,9 +31,9 @@ namespace AsJson
             Console.ReadKey();
         }
 
-        static void ProcessProfiles(string path)
+        static void ProcessProfiles(IFolder path, string jsonFile)
         {
-            var profiles = PortableFrameworkProfileEnumerator.EnumeratePortableProfiles(path == null ? null : DiskFileSystem.Folder(path))
+            var profiles = PortableFrameworkProfileEnumerator.EnumeratePortableProfiles(path)
                 .OrderBy(x => int.Parse(x.Name.Profile.Substring(7)))
                 .Select(p => new
                 {
@@ -52,8 +51,7 @@ namespace AsJson
                     }).ToArray(),
                 }).ToArray();
 
-            var filename = path == null ? "profiles.json" : Path.Combine(path, "profiles.json");
-            File.WriteAllText(filename, JsonConvert.SerializeObject(profiles, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() }));
+            File.WriteAllText(jsonFile, JsonConvert.SerializeObject(profiles, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() }));
         }
     }
 }

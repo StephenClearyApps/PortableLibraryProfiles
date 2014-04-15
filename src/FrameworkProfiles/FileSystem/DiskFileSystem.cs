@@ -21,6 +21,11 @@ namespace FrameworkProfiles.FileSystem
             }
 
             public string FullPath { get; private set; }
+
+            public override string ToString()
+            {
+                return FullPath;
+            }
         }
 
         private sealed class DiskFile : DiskFolderItem, IFile
@@ -28,6 +33,11 @@ namespace FrameworkProfiles.FileSystem
             public DiskFile(string fullPath)
                 : base(fullPath)
             {
+            }
+
+            public Stream Open()
+            {
+                return File.OpenRead(FullPath);
             }
         }
 
