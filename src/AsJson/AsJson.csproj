@@ -61,7 +61,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="VS2013 Update 2 RC2, Xamarin.zip">
+    <None Include="VS2013 Update 2 RC2, Xamarin 4.2.4 Alpha.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
