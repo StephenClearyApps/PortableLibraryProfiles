@@ -66,9 +66,17 @@ namespace AsJson
                 foreach (var file in Directory.EnumerateFiles(version).ToArray())
                     File.Delete(file);
 
+                foreach (var subdir in Directory.EnumerateDirectories(version).Where(x => !x.Contains("Profile") && !x.Contains("RedistList")))
+                    Directory.Delete(subdir, true);
+
                 var profiles = Directory.EnumerateDirectories(Path.Combine(version, "Profile"));
-                foreach (var file in profiles.SelectMany(Directory.EnumerateFiles).ToArray())
-                    File.Delete(file);
+                foreach (var profile in profiles)
+                {
+                    foreach (var file in Directory.EnumerateFiles(profile).ToArray())
+                        File.Delete(file);
+                    foreach (var subdir in Directory.EnumerateDirectories(profile).Where(x => !x.Contains("SupportedFrameworks") && !x.Contains("RedistList")))
+                        Directory.Delete(subdir, true);
+                }
             }
         }
     }
