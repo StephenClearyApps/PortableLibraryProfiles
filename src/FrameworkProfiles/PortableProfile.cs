@@ -14,8 +14,11 @@ namespace FrameworkProfiles
         public override bool SupportedByVisualStudio2013
         {
             get { return SupportedFrameworks.All(x => x.SupportedByVisualStudio2013); }
+        }
 
-            set { throw new InvalidOperationException(); }
+        public override bool SupportedByVisualStudio2015
+        {
+            get { return SupportedFrameworks.All(x => x.SupportedByVisualStudio2015); }
         }
 
         public override bool SupportsAsync

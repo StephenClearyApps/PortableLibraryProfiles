@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -45,6 +46,7 @@ namespace AsJson
                     p.DisplayName,
                     ProfileName = p.Name.Profile,
                     p.SupportedByVisualStudio2013,
+                    p.SupportedByVisualStudio2015,
                     p.SupportsAsync,
                     p.SupportsGenericVariance,
                     p.NugetTarget,
@@ -69,8 +71,10 @@ namespace AsJson
                 foreach (var subdir in Directory.EnumerateDirectories(version).Where(x => !x.Contains("Profile") && !x.Contains("RedistList")))
                     Directory.Delete(subdir, true);
 
-                var profiles = Directory.EnumerateDirectories(Path.Combine(version, "Profile"));
-                foreach (var profile in profiles)
+                var profilePath = Path.Combine(version, "Profile");
+                if (!Directory.Exists(profilePath))
+                    continue;
+                foreach (var profile in Directory.EnumerateDirectories(profilePath))
                 {
                     foreach (var file in Directory.EnumerateFiles(profile).ToArray())
                         File.Delete(file);

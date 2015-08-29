@@ -10,13 +10,14 @@ namespace FrameworkProfiles
 {
     public static class NugetTargets
     {
-        // https://nuget.codeplex.com/SourceControl/latest#src/Core/Utility/VersionUtility.cs
+        // https://github.com/NuGet/NuGet3/blob/dev/src/NuGet.Frameworks/FrameworkConstants.cs
+        // https://github.com/NuGet/NuGet3/blob/dev/src/NuGet.Frameworks/DefaultFrameworkMappings.cs
 
         private static readonly Dictionary<FrameworkName, string> KnownNugetTargets = new Dictionary<FrameworkName, string>
         {
-            { new FrameworkName("Silverlight,Version=v4.0"), "sl4" },
-            { new FrameworkName("Silverlight,Version=v5.0"), "sl5" },
-            { new FrameworkName("Silverlight,Version=v4.0,Profile=WindowsPhone*"), "wp7" },
+            { new FrameworkName("Silverlight,Version=v4.0"), "sl40" },
+            { new FrameworkName("Silverlight,Version=v5.0"), "sl50" },
+            { new FrameworkName("Silverlight,Version=v4.0,Profile=WindowsPhone*"), "wp70" },
             { new FrameworkName("Silverlight,Version=v4.0,Profile=WindowsPhone7*"), "wp71" },
         };
 
@@ -26,8 +27,9 @@ namespace FrameworkProfiles
             { "WindowsPhone", "wp" },
             { "WindowsPhoneApp", "wpa" },
             { ".NETCore", "netcore" },
-            { "MonoAndroid", "MonoAndroid" },
-            { "MonoTouch", "MonoTouch" },
+            { "MonoAndroid", "monoandroid" },
+            { "MonoTouch", "monotouch" },
+            { "Xamarin.iOS", "xamarinios" }
         };
 
         public static string GetNugetTarget(FrameworkProfile profile)

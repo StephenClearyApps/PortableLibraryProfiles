@@ -60,12 +60,18 @@ namespace FrameworkProfiles.FileSystem
 
             public IFolder Folder(string name)
             {
-                return new DiskFolder(Path.Combine(FullPath, name));
+                var path = Path.Combine(FullPath, name);
+                if (!Directory.Exists(path))
+                    return null;
+                return new DiskFolder(path);
             }
 
             public IFile File(string name)
             {
-                return new DiskFile(Path.Combine(FullPath, name));
+                var path = Path.Combine(FullPath, name);
+                if (!System.IO.File.Exists(path))
+                    return null;
+                return new DiskFile(path);
             }
         }
     }

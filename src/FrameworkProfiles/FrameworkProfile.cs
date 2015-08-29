@@ -7,7 +7,9 @@ namespace FrameworkProfiles
     {
         public FrameworkName Name { get; set; }
         public string DisplayName { get; set; }
-        public virtual bool SupportedByVisualStudio2013 { get; set; }
+        public Version MaximumVisualStudioVersion { get; set; }
+        public virtual bool SupportedByVisualStudio2013 { get { return MaximumVisualStudioVersion == null || MaximumVisualStudioVersion >= new Version(12, 0); } }
+        public virtual bool SupportedByVisualStudio2015 { get { return MaximumVisualStudioVersion == null || MaximumVisualStudioVersion >= new Version(14, 0); } }
 
         /// <summary>
         /// Whether this profile supports async/await. This includes profiles supporting async/await via Microsoft.Bcl.Async.
@@ -41,7 +43,7 @@ namespace FrameworkProfiles
                     return true;
 
                 // Mono
-                if (Name.Identifier == "MonoAndroid" || Name.Identifier == "MonoTouch")
+                if (Name.Identifier == "MonoAndroid" || Name.Identifier == "MonoTouch" || Name.Identifier.StartsWith("Xamarin"))
                     return true;
 
                 return false;
@@ -73,11 +75,16 @@ namespace FrameworkProfiles
                     return true;
 
                 // Mono
-                if (Name.Identifier == "MonoAndroid" || Name.Identifier == "MonoTouch")
+                if (Name.Identifier == "MonoAndroid" || Name.Identifier == "MonoTouch" || Name.Identifier.StartsWith("Xamarin"))
                     return true;
 
                 return false;
             }
+        }
+
+        public virtual bool IsXamarin
+        {
+            get { return (Name.Identifier == "MonoAndroid" || Name.Identifier == "MonoTouch" || Name.Identifier.StartsWith("Xamarin")); }
         }
 
         public virtual string NugetTarget

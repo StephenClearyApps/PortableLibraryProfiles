@@ -15,11 +15,12 @@ namespace FrameworkProfiles
 
         public static IEnumerable<PortableProfile> EnumeratePortableProfiles(IFolder folder)
         {
-            var versions = folder.EnumerateFolders();
-            foreach (var version in versions)
+            foreach (var version in folder.EnumerateFolders())
             {
-                var profiles = version.Folder("Profile").EnumerateFolders();
-                foreach (var profile in profiles)
+                var profilesFolder = version.Folder("Profile");
+                if (profilesFolder == null)
+                    continue;
+                foreach (var profile in profilesFolder.EnumerateFolders())
                 {
                     var versionFileName = Path.GetFileName(version.FullPath.TrimEnd('/'));
                     var profileFileName = Path.GetFileName(profile.FullPath.TrimEnd('/'));
@@ -37,12 +38,15 @@ namespace FrameworkProfiles
                     foreach (var supportedFramework in supportedFrameworks)
                     {
                         var xml = XElement.Load(supportedFramework.Open());
-                        ret.SupportedFrameworks.Add(new FrameworkProfile
+                        var maximumVisualStudioVersionAttribute = xml.Attribute("MaximumVisualStudioVersion");
+                        var childFramework = new FrameworkProfile
                         {
                             DisplayName = xml.Attribute("DisplayName").Value,
                             Name = new FrameworkName(xml.Attribute("Identifier").Value, new Version(xml.Attribute("MinimumVersion").Value), xml.Attribute("Profile").Value),
-                            SupportedByVisualStudio2013 = new Version((xml.Attribute("MaximumVisualStudioVersion") ?? new XAttribute("MaximumVisualStudioVersion", "12.0")).Value) >= new Version(12, 0),
-                        });
+                            MaximumVisualStudioVersion = maximumVisualStudioVersionAttribute == null ? null : new Version(maximumVisualStudioVersionAttribute.Value),
+                        };
+                        if (!childFramework.IsXamarin)
+                            ret.SupportedFrameworks.Add(childFramework);
                     }
 
                     yield return ret;

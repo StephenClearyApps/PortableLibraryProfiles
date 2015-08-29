@@ -82,12 +82,18 @@ namespace FrameworkProfiles.FileSystem
 
             public IFolder Folder(string name)
             {
-                return new ZipFileFolder(ZipArchive.GetEntry(FullPath + name + "/"));
+                var entry = ZipArchive.GetEntry(FullPath + name + "/");
+                if (entry == null)
+                    return null;
+                return new ZipFileFolder(entry);
             }
 
             public IFile File(string name)
             {
-                return new ZipFileFile(ZipArchive.GetEntry(FullPath + name));
+                var entry = ZipArchive.GetEntry(FullPath + name);
+                if (entry == null)
+                    return null;
+                return new ZipFileFile(entry);
             }
         }
     }
