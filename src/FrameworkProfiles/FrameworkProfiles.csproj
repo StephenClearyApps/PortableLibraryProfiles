@@ -58,6 +58,7 @@
     <Compile Include="PortableFrameworkProfileEnumerator.cs" />
     <Compile Include="PortableProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VersionHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

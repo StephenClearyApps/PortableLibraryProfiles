@@ -41,6 +41,17 @@ namespace FrameworkProfiles
             }
         }
 
+        public override Version Generation
+        {
+            get
+            {
+                var versions = SupportedFrameworks.Select(x => x.Generation).ToArray();
+                if (versions.Any(x => x == null))
+                    return null;
+                return versions.Min();
+            }
+        }
+
         public List<FrameworkProfile> SupportedFrameworks { get; private set; }
     }
 }

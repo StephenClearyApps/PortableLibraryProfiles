@@ -43,17 +43,17 @@ namespace AsJson
                 .Select(p => new
                 {
                     p.Name.FullName,
-                    p.DisplayName,
                     ProfileName = p.Name.Profile,
                     p.SupportedByVisualStudio2013,
                     p.SupportedByVisualStudio2015,
                     p.SupportsAsync,
                     p.SupportsGenericVariance,
                     p.NugetTarget,
+                    Generation = p.Generation?.ToString(2),
                     Frameworks = p.SupportedFrameworks.Select(f => new
                     {
                         f.Name.FullName,
-                        f.DisplayName,
+                        f.FriendlyName,
                     }).ToArray(),
                 }).ToArray();
 

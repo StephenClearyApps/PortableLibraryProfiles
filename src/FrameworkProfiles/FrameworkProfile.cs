@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Versioning;
 
 namespace FrameworkProfiles
@@ -87,9 +88,82 @@ namespace FrameworkProfiles
             get { return (Name.Identifier == "MonoAndroid" || Name.Identifier == "MonoTouch" || Name.Identifier.StartsWith("Xamarin")); }
         }
 
+        public virtual bool IsPrivate
+        {
+            get { return IsXamarin || (Name.Identifier == "DNXcore"); }
+        }
+
         public virtual string NugetTarget
         {
             get { return NugetTargets.GetNugetTarget(this); }
+        }
+
+        public virtual Version Generation
+        {
+            get
+            {
+                // https://github.com/davidfowl/aspnetvnextwebapiapp/blob/master/Generations.md
+                
+                // Note: This only includes platforms that can be targeted in the PCL.
+
+                // > .NET 4.6 are 5.5
+                if (Name.Identifier == ".NETFramework" && Name.Version > new Version(4, 6))
+                    return new Version(5, 5);
+
+                // > .NET 4.6 is 5.4
+                if (Name.Identifier == ".NETFramework" && Name.Version == new Version(4, 6))
+                    return new Version(5, 4);
+
+                // > .NET 4.5.1 and 4.5.2 are 5.3
+                if (Name.Identifier == ".NETFramework" && Name.Version > new Version(4, 5))
+                    return new Version(5, 3);
+
+                // .NET 4.5 is 5.2
+                if (Name.Identifier == ".NETFramework" && Name.Version == new Version(4, 5))
+                    return new Version(5, 2);
+
+                // Windows 8.1 is 5.3
+                if (Name.Identifier == ".NETCore" && Name.Version == new Version(4, 5, 1))
+                    return new Version(5, 3);
+
+                // Windows 8.0 is 5.2
+                if (Name.Identifier == ".NETCore" && Name.Version == new Version(4, 5))
+                    return new Version(5, 2);
+
+                // DNXcore 5.0 is 5.5
+                if (Name.Identifier == "DNXcore" && Name.Version == new Version(5, 0))
+                    return new Version(5, 5);
+
+                // Windows Phone App 8.1 is 5.3
+                if (Name.Identifier == "WindowsPhoneApp" && Name.Version == new Version(8, 1))
+                    return new Version(5, 3);
+
+                // Windows Phone Silverlight 8 and 8.1 are 5.1
+                if (Name.Identifier == "WindowsPhone")
+                    return new Version(5, 1);
+
+                // No other platforms support generations.
+                return null;
+            }
+        }
+
+        private static readonly Dictionary<FrameworkName, string> SpecialFriendlyNames = new Dictionary<FrameworkName, string>
+        {
+            { new FrameworkName("Xbox,Version=v4.0,Profile=*"), "XBox 360" },
+            { new FrameworkName("Silverlight,Version=v4.0,Profile=WindowsPhone*"), "Windows Phone Silverlight 7.0" },
+            { new FrameworkName("Silverlight,Version=v4.0,Profile=WindowsPhone7*"), "Windows Phone Silverlight 7.5" },
+            { new FrameworkName(".NETCore,Version=v4.5,Profile=*"), "Windows 8.0" },
+            { new FrameworkName(".NETCore,Version=v4.5.1,Profile=*"), "Windows 8.1" },
+        };
+
+        public virtual string FriendlyName
+        {
+            get
+            {
+                if (SpecialFriendlyNames.ContainsKey(Name))
+                    return SpecialFriendlyNames[Name];
+                return DisplayName + " " + Name.Version.FriendlyName();
+            }
         }
     }
 }

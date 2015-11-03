@@ -29,7 +29,8 @@ namespace FrameworkProfiles
             { ".NETCore", "netcore" },
             { "MonoAndroid", "monoandroid" },
             { "MonoTouch", "monotouch" },
-            { "Xamarin.iOS", "xamarinios" }
+            { "Xamarin.iOS", "xamarinios" },
+            { "DNXcore", "dnxcore" }
         };
 
         public static string GetNugetTarget(FrameworkProfile profile)

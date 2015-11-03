@@ -45,11 +45,12 @@ namespace FrameworkProfiles
                             Name = new FrameworkName(xml.Attribute("Identifier").Value, new Version(xml.Attribute("MinimumVersion").Value), xml.Attribute("Profile").Value),
                             MaximumVisualStudioVersion = maximumVisualStudioVersionAttribute == null ? null : new Version(maximumVisualStudioVersionAttribute.Value),
                         };
-                        if (!childFramework.IsXamarin)
+                        if (!childFramework.IsPrivate)
                             ret.SupportedFrameworks.Add(childFramework);
                     }
 
-                    yield return ret;
+                    if (ret.SupportedFrameworks.Count > 1)
+                        yield return ret;
                 }
             }
         }
