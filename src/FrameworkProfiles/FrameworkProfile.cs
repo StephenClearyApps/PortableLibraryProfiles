@@ -98,7 +98,56 @@ namespace FrameworkProfiles
             get { return NugetTargets.GetNugetTarget(this); }
         }
 
-        public virtual Version Generation
+        public virtual Version NetStandardGeneration
+        {
+            get
+            {
+                // https://github.com/dotnet/corefx/blob/master/Documentation/project-docs/standard-platform.md
+
+                // Note: This only includes platforms that can be targeted in the PCL.
+
+                // > .NET 4.6 are 5.5
+                if (Name.Identifier == ".NETFramework" && Name.Version > new Version(4, 6))
+                    return new Version(1, 4);
+
+                // > .NET 4.6 is 5.4
+                if (Name.Identifier == ".NETFramework" && Name.Version == new Version(4, 6))
+                    return new Version(1, 3);
+
+                // > .NET 4.5.1 and 4.5.2 are 5.3
+                if (Name.Identifier == ".NETFramework" && Name.Version > new Version(4, 5))
+                    return new Version(1, 2);
+
+                // .NET 4.5 is 5.2
+                if (Name.Identifier == ".NETFramework" && Name.Version == new Version(4, 5))
+                    return new Version(1, 1);
+
+                // Windows 8.1 is 5.3
+                if (Name.Identifier == ".NETCore" && Name.Version == new Version(4, 5, 1))
+                    return new Version(1, 2);
+
+                // Windows 8.0 is 5.2
+                if (Name.Identifier == ".NETCore" && Name.Version == new Version(4, 5))
+                    return new Version(1, 1);
+
+                // DNXcore 5.0 is 5.5
+                if (Name.Identifier == "DNXcore" && Name.Version == new Version(5, 0))
+                    return new Version(1, 4);
+
+                // Windows Phone App 8.1 is 5.3
+                if (Name.Identifier == "WindowsPhoneApp" && Name.Version == new Version(8, 1))
+                    return new Version(1, 2);
+
+                // Windows Phone Silverlight 8 and 8.1 are 5.1
+                if (Name.Identifier == "WindowsPhone")
+                    return new Version(1, 0);
+
+                // No other platforms support generations.
+                return null;
+            }
+        }
+
+        public virtual Version DotnetGeneration
         {
             get
             {

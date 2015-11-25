@@ -49,7 +49,8 @@ namespace AsJson
                     p.SupportsAsync,
                     p.SupportsGenericVariance,
                     p.NugetTarget,
-                    Generation = p.Generation?.ToString(2),
+                    NetStandardGeneration = p.NetStandardGeneration == null ? null : "netstandard" + p.NetStandardGeneration?.ToString(2),
+                    DotnetGeneration = p.DotnetGeneration == null ? null : "dotnet" + p.DotnetGeneration?.ToString(2),
                     Frameworks = p.SupportedFrameworks.Select(f => new
                     {
                         f.Name.FullName,

@@ -41,11 +41,22 @@ namespace FrameworkProfiles
             }
         }
 
-        public override Version Generation
+        public override Version NetStandardGeneration
         {
             get
             {
-                var versions = SupportedFrameworks.Select(x => x.Generation).ToArray();
+                var versions = SupportedFrameworks.Select(x => x.NetStandardGeneration).ToArray();
+                if (versions.Any(x => x == null))
+                    return null;
+                return versions.Min();
+            }
+        }
+
+        public override Version DotnetGeneration
+        {
+            get
+            {
+                var versions = SupportedFrameworks.Select(x => x.DotnetGeneration).ToArray();
                 if (versions.Any(x => x == null))
                     return null;
                 return versions.Min();
