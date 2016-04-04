@@ -90,7 +90,7 @@ namespace FrameworkProfiles
 
         public virtual bool IsPrivate
         {
-            get { return IsXamarin || (Name.Identifier == "DNXcore"); }
+            get { return IsXamarin || (Name.Identifier == "DNXCore"); }
         }
 
         public virtual string NugetTarget
