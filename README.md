@@ -14,4 +14,4 @@ Also, if there are any folders in the same directory as the executable, they are
 
 To see the results in a table, go here:
 
-  <http://run.plnkr.co/plunks/03ck2dCtnJogBKHJ9EjY/>
+  <http://portablelibraryprofiles.apps.stephencleary.com/>
