@@ -102,47 +102,43 @@ namespace FrameworkProfiles
         {
             get
             {
-                // https://github.com/dotnet/corefx/blob/master/Documentation/project-docs/standard-platform.md
+                // https://github.com/dotnet/standard/blob/master/docs/versions.md
 
                 // Note: This only includes platforms that can be targeted in the PCL.
 
-                // > .NET 4.6 are 5.5
+                // > .NET 4.6 are 2.0
                 if (Name.Identifier == ".NETFramework" && Name.Version > new Version(4, 6))
-                    return new Version(1, 4);
+                    return new Version(2, 0);
 
-                // > .NET 4.6 is 5.4
+                // .NET 4.6 is 1.3
                 if (Name.Identifier == ".NETFramework" && Name.Version == new Version(4, 6))
                     return new Version(1, 3);
 
-                // > .NET 4.5.1 and 4.5.2 are 5.3
+                // > .NET 4.5.1 and 4.5.2 are 1.2
                 if (Name.Identifier == ".NETFramework" && Name.Version > new Version(4, 5))
                     return new Version(1, 2);
 
-                // .NET 4.5 is 5.2
+                // .NET 4.5 is 1.1
                 if (Name.Identifier == ".NETFramework" && Name.Version == new Version(4, 5))
                     return new Version(1, 1);
 
-                // Windows 8.1 is 5.3
+                // Windows 8.1 is 1.2
                 if (Name.Identifier == ".NETCore" && Name.Version == new Version(4, 5, 1))
                     return new Version(1, 2);
 
-                // Windows 8.0 is 5.2
+                // Windows 8.0 is 1.1
                 if (Name.Identifier == ".NETCore" && Name.Version == new Version(4, 5))
                     return new Version(1, 1);
 
-                // DNXcore 5.0 is 5.5
-                if (Name.Identifier == "DNXcore" && Name.Version == new Version(5, 0))
-                    return new Version(1, 4);
-
-                // Windows Phone App 8.1 is 5.3
+                // Windows Phone App 8.1 is 1.2
                 if (Name.Identifier == "WindowsPhoneApp" && Name.Version == new Version(8, 1))
                     return new Version(1, 2);
 
-                // Windows Phone Silverlight 8 and 8.1 are 5.1
+                // Windows Phone Silverlight 8 and 8.1 are 1.0
                 if (Name.Identifier == "WindowsPhone")
                     return new Version(1, 0);
 
-                // No other platforms support generations.
+                // No other platforms support netstandard.
                 return null;
             }
         }
@@ -155,15 +151,15 @@ namespace FrameworkProfiles
                 
                 // Note: This only includes platforms that can be targeted in the PCL.
 
-                // > .NET 4.6 are 5.5
+                // .NET 4.6 is 5.5
                 if (Name.Identifier == ".NETFramework" && Name.Version > new Version(4, 6))
                     return new Version(5, 5);
 
-                // > .NET 4.6 is 5.4
+                // .NET 4.6 is 5.4
                 if (Name.Identifier == ".NETFramework" && Name.Version == new Version(4, 6))
                     return new Version(5, 4);
 
-                // > .NET 4.5.1 and 4.5.2 are 5.3
+                // .NET 4.5.1 and 4.5.2 are 5.3
                 if (Name.Identifier == ".NETFramework" && Name.Version > new Version(4, 5))
                     return new Version(5, 3);
 
