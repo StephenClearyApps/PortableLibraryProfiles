@@ -17,6 +17,10 @@ namespace FrameworkProfiles
             { new FrameworkName("Silverlight,Version=v5.0"), "sl50" },
             { new FrameworkName("Silverlight,Version=v4.0,Profile=WindowsPhone*"), "wp70" },
             { new FrameworkName("Silverlight,Version=v4.0,Profile=WindowsPhone7*"), "wp71" },
+
+            // Prefer "win" TFMs to reduce confusion with the new .NET Core (which has nothing to do with the netcore TFM).
+            { new FrameworkName(".NETCore,Version=v4.5,Profile=*"), "win8" },
+            { new FrameworkName(".NETCore,Version=v4.5.1,Profile=*"), "win81" },
         };
 
         private static readonly Dictionary<string, string> KnownNugetPlatforms = new Dictionary<string, string>
@@ -24,11 +28,9 @@ namespace FrameworkProfiles
             { ".NETFramework", "net" },
             { "WindowsPhone", "wp" },
             { "WindowsPhoneApp", "wpa" },
-            { ".NETCore", "netcore" },
             { "MonoAndroid", "monoandroid" },
             { "MonoTouch", "monotouch" },
             { "Xamarin.iOS", "xamarinios" },
-            { "DNXcore", "dnxcore" }
         };
 
         public static string GetNugetTarget(FrameworkProfile profile)
