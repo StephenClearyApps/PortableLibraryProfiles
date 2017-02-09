@@ -57,7 +57,11 @@ namespace AsJson
                     }).ToArray(),
                 }).ToArray();
 
-            File.WriteAllText(jsonFile, JsonConvert.SerializeObject(profiles, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() }));
+            File.WriteAllText(jsonFile, JsonConvert.SerializeObject(profiles, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.Indented,
+            }));
         }
 
         static void CleanDirectory(string path)
