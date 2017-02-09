@@ -54,6 +54,7 @@ namespace AsJson
                     {
                         f.Name.FullName,
                         f.FriendlyName,
+                        f.NugetTarget,
                     }).ToArray(),
                 }).ToArray();
 
