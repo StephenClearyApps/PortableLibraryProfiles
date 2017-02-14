@@ -13,9 +13,9 @@ namespace FrameworkProfiles
 
         private static readonly Dictionary<FrameworkName, string> KnownNugetTargets = new Dictionary<FrameworkName, string>
         {
-            { new FrameworkName("Silverlight,Version=v4.0"), "sl40" },
-            { new FrameworkName("Silverlight,Version=v5.0"), "sl50" },
-            { new FrameworkName("Silverlight,Version=v4.0,Profile=WindowsPhone*"), "wp70" },
+            { new FrameworkName("Silverlight,Version=v4.0"), "sl4" },
+            { new FrameworkName("Silverlight,Version=v5.0"), "sl5" },
+            { new FrameworkName("Silverlight,Version=v4.0,Profile=WindowsPhone*"), "wp7" },
             { new FrameworkName("Silverlight,Version=v4.0,Profile=WindowsPhone7*"), "wp71" },
 
             // Prefer "win" TFMs to reduce confusion with the new .NET Core (which has nothing to do with the netcore TFM).
