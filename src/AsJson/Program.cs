@@ -44,6 +44,7 @@ namespace AsJson
                 {
                     p.Name.FullName,
                     ProfileName = p.Name.Profile,
+                    p.DisplayName,
                     p.SupportedByVisualStudio2013,
                     p.SupportedByVisualStudio2015,
                     p.SupportsAsync,
@@ -55,6 +56,7 @@ namespace AsJson
                         f.Name.FullName,
                         f.FriendlyName,
                         f.NugetTarget,
+                        NetStandard = f.NetStandard == null ? null : "netstandard" + f.NetStandard?.ToString(2),
                     }).ToArray(),
                 }).ToArray();
 
