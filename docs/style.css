@@ -1,0 +1,21 @@
+/* Styles go here */
+
+.verticalSpacing {
+  margin-bottom: 0.5em;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: lightblue;
+}
+
+.bad {
+  color: red;
+}
+
+.good {
+  color: green;
+}
+
+.pushdown {
+  margin-top: 1em;
+}

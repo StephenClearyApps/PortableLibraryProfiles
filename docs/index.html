@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Portable Library Profiles</title>
+    <link data-require="bootstrap-css@*" data-semver="3.0.0" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <link data-require="bootstrap@*" data-semver="3.0.0" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script data-require="bootstrap@*" data-semver="3.0.0" src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script data-require="angular.js@1.2.0-rc3" data-semver="1.2.0-rc3" src="//code.angularjs.org/1.2.0-rc.3/angular.min.js"></script>
+    <script data-require="jquery@*" data-semver="2.0.3" src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+  </head>
+
+  <body>
+    <div ng-app="">
+      <div ng-controller="MyCtrl">
+        <div>Portable Class Library (PCL) profiles as of <b>{{description}}</b>.</div>
+      
+        <div>
+          <input type="text" ng-model="filter" class="form-control pushdown" placeholder="Filter">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="includeLegacy">
+              Include legacy portable profiles
+            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="includeNames">
+              Show full framework names
+            </label>
+          </div>
+        </div>
+
+        <table class="table table-striped table-hover pushdown">
+          <tr><th>#</th><th ng-show="includeNames">Name</th><th>Frameworks</th><th ng-show="includeNames">Framework Names</th><th>NuGet Target</th><th><a target="_blank" href="https://github.com/dotnet/standard">.NET Standard</a></th><th ng-show="includeLegacy">Notes</th></tr>
+          <tr ng-repeat="profile in list | filter:legacyFilter | filter:filter">
+            <td><span title="{{profile.fullName}}">{{profile.profileName}}</span></td>
+            <td ng-show="includeNames">{{profile.fullName}}</td>
+            <td><div ng-repeat="framework in profile.frameworks" class="verticalSpacing"><span title="{{framework.fullName}}">{{framework.friendlyName}}</span></div></td>
+            <td ng-show="includeNames"><div ng-repeat="framework in profile.frameworks" class="verticalSpacing">{{framework.fullName}}</div></td>
+            <td>{{profile.nugetTarget}}</td>
+            <td><div><div class="verticalSpacing">{{profile.netStandard}}</div></div></td>
+            <td ng-show="includeLegacy">
+              <div ng-hide="profile.supportedByVisualStudio2013" class="verticalSpacing"><a href="http://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/4504987-support-portable-class-libraries-in-vs-2013-for-al">Not supported by VS2013</a></div>
+              <div ng-hide="profile.supportedByVisualStudio2015" class="verticalSpacing"><a href="http://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/4504987-support-portable-class-libraries-in-vs-2013-for-al">Not supported by VS2015</a></div>
+              <div ng-hide="profile.supportsAsync" class="bad verticalSpacing">Does not support async/await or HttpClient.<br/></div>
+              <div ng-show="profile.supportsAsync" class="good verticalSpacing">Supports async/await and HttpClient.<br/></div>
+              <div ng-hide="profile.supportsGenericVariance" class="bad verticalSpacing">Does not support generic variance.<br/></div>
+              <div ng-show="profile.supportsGenericVariance" class="good verticalSpacing">Supports generic variance.<br/></div>
+            </td>
+          </tr>
+        </table>
+
+        <div>For more about framework names, see <a target="_blank" href="http://blog.stephencleary.com/2012/05/framework-profiles-in-net.html">Framework Profiles in .NET</a>.</div>
+        <div>The program that generates this data is <a target="_blank" href="https://github.com/StephenCleary/PortableLibraryProfiles">open source!</a></div>
+      </div>
+    </div>
+
+<!-- Google Analytics -->    
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-8910661-8', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>
